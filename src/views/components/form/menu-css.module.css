@@ -1,0 +1,41 @@
+.menu {
+  width: 180px;
+  display: grid;
+  align-items: center;
+  grid-template-rows: 1.5fr 1.5fr 2fr 2fr;
+  padding: 10px;
+}
+.dire {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  justify-content: center;
+  width: 200px;
+}
+.button {
+  width: 100% !important;
+}
+
+.buttBig {
+  height: 20px;
+  width: 20px;
+}
+
+.infiniteList {
+  height: 300px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.infiniteList .infiniteListLtem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background: var(--el-color-primary-light-9);
+  margin: 10px;
+  color: var(--el-color-primary);
+}
+.infiniteList .infiniteListLtem + .infiniteListLtem {
+  margin-top: 10px;
+}
