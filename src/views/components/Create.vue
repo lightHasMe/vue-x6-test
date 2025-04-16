@@ -808,14 +808,6 @@ function onClose() {
 
 // 初始化画布
 onMounted(() => {
-  emitter.on('switchCanvas', (index: string) => {
-    const graphData = storeyStore().get(index).graphData
-    if (graph) graph.fromJSON(graphData)
-  })
-  emitter.on('isChange', (data: boolean) => {
-    isChange.value = data
-  })
-
   graph = Create() as Graph
 
   graphStore().set(graph)
