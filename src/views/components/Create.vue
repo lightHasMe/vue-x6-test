@@ -806,11 +806,29 @@ function onClose() {
   FormState.value = false // 直接关闭
 }
 
+function shapeRegister(){
+  register({
+    shape: 'device-node', 
+    component: test,
+    width: 80,
+    height: 120,
+  })
+  register({
+    shape: 'cylinder', 
+    component: Cylinder,
+    width: 120,
+    height: 120,
+  })
+  
+}
+
 // 初始化画布
 onMounted(() => {
   graph = Create() as Graph
 
   graphStore().set(graph)
+
+  shapeRegister()
 
   graph.fromJSON(layoutStore().getGraphData() ?? {})
 
@@ -868,22 +886,14 @@ onMounted(() => {
       storeyStore().updateGraphData(storeyStore().getNow(), graph.toJSON() ?? {})
   })
 
-  // 注册自定义 Vue 节点
-  register({
-    shape: 'device-node', 
-    component: test,
-    width: 120,
-    height: 120,
-  })
-
   // 添加设备节点
   graph.addNode({
     id: '1',
     shape: 'device-node', 
     x: 100,
     y: 100,
-    width: 120,
-    height: 120,
+    width: 160,
+    height: 200,
     data: {
       label: '在线（Q13UDV）',
       brand: '三菱',
@@ -1192,6 +1202,7 @@ onMounted(() => {
 
 .dndFoot {
   margin-top: auto;
+  display: flex;
 }
 .no-select {
   user-select: none; /* 适用于大多数现代浏览器 */

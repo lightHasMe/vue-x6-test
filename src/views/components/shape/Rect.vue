@@ -1,12 +1,8 @@
 <script setup lang="ts">
-const props = defineProps<{
-  text?: string
-}>()
 </script>
 
 <template lang="html">
   <div data-type="rect" class="dnd-rect">
-    {{ props.text }}
   </div>
 </template>
 
