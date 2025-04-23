@@ -245,6 +245,7 @@ const liquidPath = computed(() => {
   height: 100%;
   width: 100%;
   font-family: "Microsoft YaHei", sans-serif;
+  margin: 0px 0px;
 }
 
 .tank-svg-wrapper {
@@ -257,7 +258,6 @@ const liquidPath = computed(() => {
 .tank-svg {
   width: 100%;
   height: 100%;
-  margin: 0px !important;
 }
 
 .tank-gauge-text {
