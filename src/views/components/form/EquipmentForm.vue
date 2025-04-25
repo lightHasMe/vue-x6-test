@@ -120,7 +120,7 @@ onMounted(() => {
           <el-input
             v-model="form.value"
             type="text"
-            :placeholder="请选择"
+            placeholder="请选择"
             :disabled="!form.display"
           />
         </el-form-item>

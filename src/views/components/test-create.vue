@@ -23,7 +23,7 @@ onMounted(() => {
   const graph = new Graph({
     container: document.getElementById('container')!,
     background: {
-      color: '#F2F7FA',
+      color: '#fff',
     },
     autoResize: true,
   })
@@ -42,5 +42,10 @@ onMounted(() => {
   border: 1px solid #ccc;
   display: flex;
   justify-content: center;
+}
+#container {
+  width: 500px;
+  height: 400px;
+  background-color: #005fb8;
 }
 </style>

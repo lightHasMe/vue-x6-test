@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="dnd-rect">
+  <div class="dnd-rect" data-type="rect">
   </div>
 </template>
 <script setup lang="ts">

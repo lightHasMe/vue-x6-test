@@ -207,6 +207,7 @@ const handleClose = (done: () => void) => {
 const startDrag = (e: MouseEvent) => {
   if (!graph || !dnd) return
 
+
   const target = e.currentTarget as HTMLDivElement
   const type = target.getAttribute('data-type')
 
@@ -254,6 +255,7 @@ const startDrag = (e: MouseEvent) => {
   switch (type) {
     case 'rect':
       node = addShapeNode(100, 40, 'rect')
+      console.log(node)
       break
     case 'circle':
       node = addShapeNode(60, 60, 'circle')
@@ -370,7 +372,7 @@ const createNodeFromAI = (type: string, properties: any = {}) => {
     width = 100, 
     height = 100, 
     position = { x: 100, y: 100 },
-    label = '',
+    // label = 'sdsda',
     attrs = {},
     data = {}
   } = properties;
@@ -413,9 +415,9 @@ const createNodeFromAI = (type: string, properties: any = {}) => {
     node.position(position.x, position.y);
     
     // 设置标签
-    if (label) {
-      node.attr('text/text', label);
-    }
+    // if (label) {
+      node.attr('text/text', "sdada");
+    // }
 
     // 设置节点数据
     if (data) {
@@ -642,12 +644,12 @@ function shapeRegister(){
     width: 120,
     height: 120,
   })
-  register({
-    shape: 'rect', 
-    component: Rect,
-    width: 120,
-    height: 120,
-  })
+  // register({
+  //   shape: 'rect', 
+  //   component: Rect,
+  //   width: 120,
+  //   height: 120,
+  // })
 }
 
 // 初始化画布
@@ -713,6 +715,8 @@ onMounted(() => {
     if (graph)
       storeyStore().updateGraphData(storeyStore().getNow(), graph.toJSON() ?? {})
   })
+
+  createNodeFromAI("rect")
 
   // 暴露方法到全局
   exposeMethodsToAI();
@@ -800,18 +804,6 @@ onMounted(() => {
   width: 110px !important;
 }
 
-.dnd-rect,
-.dnd-circle {
-  margin: 10px;
-  padding: 10px;
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
-  cursor: pointer;
-}
-
-.item{
-  max-width: 300px;
-}
 
 .shape {
   display: grid;
