@@ -67,24 +67,21 @@
         
         <!-- 单位标签 -->
         <text
-          x="100"
-          y="80"
+          x="70"
+          y="60"
           text-anchor="middle"
           class="unit-text"
         >{{ unit }}</text>
         
         <!-- 当前值显示 -->
         <text
-          x="100"
-          y="95"
+          x="70"
+          y="73"
           text-anchor="middle"
           class="value-text"
         >{{ formatValue(currentValue) }}/{{ formatValue(maxValue) }}</text>
       </svg>
       
-    </div>
-    <div style="height: 40px; width: 40px; background-color: #333; color: #fff; display: flex; justify-content: center; align-items: center; border-radius: 5px; margin: 10px auto; cursor: pointer;" @click="incrementValue">
-      +
     </div>
   </div>
 </template>
