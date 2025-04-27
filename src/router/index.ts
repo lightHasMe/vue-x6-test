@@ -21,6 +21,10 @@ const router = createRouter({
       path: '/test1',
       component: import("@/views/components/xflow/test1.vue"),
     },
+    {
+      path: '/test2',
+      component: import("@/shapes/meter.vue"),
+    }
   ],
 })
 

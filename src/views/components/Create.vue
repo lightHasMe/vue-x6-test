@@ -143,45 +143,6 @@ const Save = async () => {
   }, 500)
 }
 
-// 上层展示
-const StratumUp = () => {
-  if (graph) {
-    const selectedCells = graph.getSelectedCells() ?? []
-
-    // 获取当前所有节点的最大 zIndex
-    const allNodes = graph.getNodes()
-    const maxZIndex = Math.max(...allNodes.map(node => node.getZIndex() || 0), 0)
-
-    if (selectedCells.length > 0) {
-      selectedCells.forEach((cell) => {
-        if (cell.isNode()) cell.setZIndex(maxZIndex + 1)
-      })
-    }
-    else if (selectedNode) {
-      selectedNode.setZIndex(maxZIndex + 1)
-    }
-  }
-}
-// 下层展示
-const StratumDown = () => {
-  if (graph) {
-    const selectedCells = graph.getSelectedCells()
-
-    // 获取当前所有节点的最小 zIndex
-    const allNodes = graph.getNodes()
-    const minZIndex = Math.min(...allNodes.map((node: any) => node.getZIndex() || 0), 0)
-
-    if (selectedCells.length > 0) {
-      selectedCells.forEach((cell: any) => {
-        if (cell.isNode()) cell.setZIndex(minZIndex - 1)
-      })
-    }
-    else if (selectedNode) {
-      selectedNode.setZIndex(minZIndex - 1)
-    }
-  }
-}
-
 // 关闭窗口
 const handleClose = (done: () => void) => {
   if (nodeAlter.value) {
@@ -214,33 +175,45 @@ const startDrag = (e: MouseEvent) => {
   const addShapeNode = (w: number, h: number, shape: string) => {
     if (!graph) return null
 
+    const nodeAttrs: any = {
+      body: {
+        stroke: '#8f8f8f',
+        strokeWidth: 1,
+        fill: '#fff',
+      },
+      label: {
+        fill: '#000',
+        refX: '0.5',
+        refY: '0.5',
+        textAnchor: 'middle', // 保证水平居中
+        textVerticalAnchor: 'middle', // 保证文本从顶部开始显示
+      },
+      text: {
+        fill: '#000000',
+        fontFamily: 'Arial, helvetica, sans-serif',
+        fontSize: 14,
+        refX: 0.5,
+        refY: 0.5,
+        text: '',
+      },
+    }
+
+    // 为圆形添加特殊属性
+    if (shape === 'circle') {
+      nodeAttrs.body = {
+        ...nodeAttrs.body,
+        r: Math.min(w, h) / 2,
+        cx: w / 2,
+        cy: h / 2
+      }
+    }
+
     return graph.createNode({
       width: w,
       height: h,
       shape,
       label: '',
-      attrs: {
-        body: {
-          stroke: '#8f8f8f',
-          strokeWidth: 1,
-          fill: '#fff',
-        },
-        label: {
-          fill: '#000',
-          refX: '0.5',
-          refY: '0.5',
-          textAnchor: 'middle', // 保证水平居中
-          textVerticalAnchor: 'middle', // 保证文本从顶部开始显示
-        },
-        text: {
-          fill: '#000000',
-          fontFamily: 'Arial, helvetica, sans-serif',
-          fontSize: 14,
-          refX: 0.5,
-          refY: 0.5,
-          text: '',
-        },
-      },
+      attrs: nodeAttrs,
       data: {
         disableMove: false,
         name: '',
@@ -261,7 +234,7 @@ const startDrag = (e: MouseEvent) => {
       node = addShapeNode(60, 60, 'circle')
       break
     case 'cylinder':
-      node = addShapeNode(48, 74, 'cylinder')
+      node = addShapeNode(60, 100, 'cylinder')
       break
   }
 
@@ -323,46 +296,6 @@ const handleAICommand = (command: string) => {
   }
 }
 
-const addShapeNode = (w: number, h: number, shape: string) => {
-    if (!graph) return null
-
-    return graph.createNode({
-      width: w,
-      height: h,
-      shape,
-      label: '',
-      attrs: {
-        body: {
-          stroke: '#8f8f8f',
-          strokeWidth: 1,
-          fill: '#fff',
-        },
-        label: {
-          fill: '#000',
-          refX: '0.5',
-          refY: '0.5',
-          textAnchor: 'middle', // 保证水平居中
-          textVerticalAnchor: 'middle', // 保证文本从顶部开始显示
-        },
-        text: {
-          fill: '#000000',
-          fontFamily: 'Arial, helvetica, sans-serif',
-          fontSize: 14,
-          refX: 0.5,
-          refY: 0.5,
-          text: '',
-        },
-      },
-      data: {
-        disableMove: false,
-        name: '',
-        display: '',
-        value: '',
-        text: '',
-      } as NodeDataInfo,
-    })
-  }
-
 // 根据AI指令创建节点
 const createNodeFromAI = (type: string, properties: any = {}) => {
   if (!graph || !dnd) return null;
@@ -376,6 +309,58 @@ const createNodeFromAI = (type: string, properties: any = {}) => {
     attrs = {},
     data = {}
   } = properties;
+
+  const addShapeNode = (w: number, h: number, shape: string) => {
+    if (!graph) return null
+
+    const nodeAttrs: any = {
+      body: {
+        stroke: '#8f8f8f',
+        strokeWidth: 1,
+        fill: '#fff',
+      },
+      label: {
+        fill: '#000',
+        refX: '0.5',
+        refY: '0.5',
+        textAnchor: 'middle', // 保证水平居中
+        textVerticalAnchor: 'middle', // 保证文本从顶部开始显示
+      },
+      text: {
+        fill: '#000000',
+        fontFamily: 'Arial, helvetica, sans-serif',
+        fontSize: 14,
+        refX: 0.5,
+        refY: 0.5,
+        text: '',
+      },
+    }
+
+    // 为圆形添加特殊属性
+    if (shape === 'circle') {
+      nodeAttrs.body = {
+        ...nodeAttrs.body,
+        r: Math.min(w, h) / 2,
+        cx: w / 2,
+        cy: h / 2
+      }
+    }
+
+    return graph.createNode({
+      width: w,
+      height: h,
+      shape,
+      label: '',
+      attrs: nodeAttrs,
+      data: {
+        disableMove: false,
+        name: '',
+        display: '',
+        value: '',
+        text: '',
+      } as NodeDataInfo,
+    })
+  }
   
   // 根据类型创建基础节点
   switch (type) {
@@ -384,6 +369,7 @@ const createNodeFromAI = (type: string, properties: any = {}) => {
       break;
     case 'circle':
       node = addShapeNode(width, height, 'circle');
+      // 设置圆形节点的特殊属性
       break;
     case 'ellipse':
       node = addShapeNode(width, height, 'ellipse');
@@ -638,19 +624,7 @@ function shapeRegister(){
     width: 120,
     height: 120,
   })
-  register({
-    shape: 'circle', 
-    component: Circle,
-    width: 120,
-    height: 120,
-  })
-  // register({
-  //   shape: 'rect', 
-  //   component: Rect,
-  //   width: 120,
-  //   height: 120,
-  // })
-}
+} 
 
 // 初始化画布
 onMounted(() => {
@@ -715,8 +689,6 @@ onMounted(() => {
     if (graph)
       storeyStore().updateGraphData(storeyStore().getNow(), graph.toJSON() ?? {})
   })
-
-  createNodeFromAI("rect")
 
   // 暴露方法到全局
   exposeMethodsToAI();
@@ -791,7 +763,7 @@ onMounted(() => {
 }
 
 .main {
-  height: 86vh;
+  height: 93vh;
   /* overflow: hidden; */
 }
 
@@ -808,11 +780,13 @@ onMounted(() => {
 .shape {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-auto-rows: 100px;          
+  grid-auto-rows: minmax(120px, auto);
   gap: 10px;
   align-items: center;
   justify-content: center;
   justify-items: center;
+  padding: 10px;
+  overflow: hidden;
 }
 
 .dnd {

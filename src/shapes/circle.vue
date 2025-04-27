@@ -8,7 +8,7 @@
 .dnd-circle {
   width: 100%;
   height: 100%;
-  border: 2px solid black !important;
+  border: 2px solid #8f8f8f !important;
   background-color: white !important;
   display: flex;
   justify-content: center;
