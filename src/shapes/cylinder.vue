@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="cylinder-container">
+  <div class="cylinder-container" data-type="cylinder">
     <div class="cylinder">
       <div class="cylinder-top"></div>
       <div class="cylinder-body">
@@ -22,9 +22,8 @@ const percentage = ref(30);
 <style lang="css">
 .cylinder-container {
   position: relative;
-  width: 200px;
-  height: 300px;
-  margin: 20px auto;
+  width: 100%;
+  height: 100%;
   perspective: 1000px;
 }
 

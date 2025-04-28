@@ -1,10 +1,17 @@
 <template lang="html">
-  <div class="meter-container">
+  <div class="meter-container" data-type="meter">
     <div class="meter">
       <svg 
         class="meter-svg" 
         viewBox="0 0 200 200" 
         xmlns="http://www.w3.org/2000/svg"
+        data-text=""
+        data-value=""
+        data-label=""
+        data-fontSize="14"
+        data-fontFamily="Arial, sans-serif"
+        data-lineHeight="1.5"
+        data-textAnchor="middle"
       >
         <!-- 表盘外框 -->
         <circle 
@@ -43,7 +50,8 @@
               text-anchor="middle"
               dominant-baseline="middle"
               class="mark-text"
-            >{{ formatValue(maxValue * n / 20) }}</text>
+              data-text=""
+            >{{ formatValue(maxValue * n / 20) || '' }}</text>
           </template>
         </g>
         
@@ -71,7 +79,8 @@
           y="60"
           text-anchor="middle"
           class="unit-text"
-        >{{ unit }}</text>
+          data-text=""
+        >{{ unit || '' }}</text>
         
         <!-- 当前值显示 -->
         <text
@@ -79,7 +88,8 @@
           y="73"
           text-anchor="middle"
           class="value-text"
-        >{{ formatValue(currentValue) }}/{{ formatValue(maxValue) }}</text>
+          data-text=""
+        >{{ formatValue(currentValue) || '' }}/{{ formatValue(maxValue) || '' }}</text>
       </svg>
       
     </div>
@@ -89,8 +99,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 
-const currentValue = ref(0.2);
-const maxValue = ref(1.0);
+const currentValue = ref(20);
+const maxValue = ref(100);
 const unit = ref('MPa');
 
 // 目标指针角度
@@ -156,9 +166,14 @@ function incrementValue(): void {
 
 // 格式化数值，处理小数
 const formatValue = (value: number) => {
+  // 如果值为空或undefined，返回空字符串
+  if (value === undefined || value === null) {
+    return '';
+  }
+  
   // 如果是整数或大于10的数，不显示小数
   if (Number.isInteger(value) || value >= 10) {
-    return Math.round(value);
+    return Math.round(value).toString();
   }
   
   // 如果是小数，根据大小显示不同精度
@@ -173,9 +188,8 @@ const formatValue = (value: number) => {
 <style lang="css" scoped>
 .meter-container {
   position: relative;
-  width: 250px;
-  height: 250px;
-  margin: 20px auto;
+  width: 100%;
+  height: 100%;
   perspective: 800px;
 }
 

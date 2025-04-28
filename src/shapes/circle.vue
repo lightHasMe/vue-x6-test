@@ -6,8 +6,8 @@
 </script>
 <style lang="css" scoped>
 .dnd-circle {
-  width: 100%;
-  height: 100%;
+  width: 80px;
+  height: 80px;
   border: 2px solid #8f8f8f !important;
   background-color: white !important;
   display: flex;

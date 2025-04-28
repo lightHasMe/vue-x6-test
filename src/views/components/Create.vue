@@ -28,6 +28,8 @@ import Circle from '@/shapes/circle.vue'
 import AIChatInterface from '../../components/AIChatInterface.vue'
 import { register } from '@antv/x6-vue-shape'
 import Tool from './tool.vue'
+import Meter from '@/shapes/meter.vue'
+import Switch from '@/shapes/switch.vue'
 
 const { t } = useI18n()
 
@@ -198,22 +200,12 @@ const startDrag = (e: MouseEvent) => {
       },
     }
 
-    // 为圆形添加特殊属性
-    if (shape === 'circle') {
-      nodeAttrs.body = {
-        ...nodeAttrs.body,
-        r: Math.min(w, h) / 2,
-        cx: w / 2,
-        cy: h / 2
-      }
-    }
-
     return graph.createNode({
       width: w,
       height: h,
       shape,
       label: '',
-      attrs: nodeAttrs,
+      // attrs: nodeAttrs,
       data: {
         disableMove: false,
         name: '',
@@ -236,6 +228,12 @@ const startDrag = (e: MouseEvent) => {
     case 'cylinder':
       node = addShapeNode(60, 100, 'cylinder')
       break
+    case "meter":
+      node = addShapeNode(150, 150, 'meter')
+      break;
+    case "switch":
+      node = addShapeNode(100, 100, 'switch')
+      break;
   }
 
   if (node) {
@@ -624,6 +622,27 @@ function shapeRegister(){
     width: 120,
     height: 120,
   })
+  register({
+    shape: "switch",
+    component: Switch,
+    width: 120,
+    height: 120,
+  })
+  register({
+    shape: "meter",
+    component: Meter,
+    width: 120,
+    height: 120,
+    attrs: {
+      text: {
+        text: '',
+        fontSize: 14,
+        fontFamily: 'Arial, sans-serif',
+        textAnchor: 'middle',
+        fill: '#000000'
+      }
+    }
+  })
 } 
 
 // 初始化画布
@@ -690,6 +709,7 @@ onMounted(() => {
       storeyStore().updateGraphData(storeyStore().getNow(), graph.toJSON() ?? {})
   })
 
+  
   // 暴露方法到全局
   exposeMethodsToAI();
 })
@@ -707,6 +727,8 @@ onMounted(() => {
                 <Rect @mousedown="startDrag" />
                 <Circle @mousedown="startDrag" />
                 <Cylinder @mousedown="startDrag" />
+                <Meter @mousedown="startDrag" />
+                <Switch @mousedown="startDrag" style="height: 100px;width: 100px;" />
               </div>
             </el-collapse-item>
             <el-collapse-item class="item" :title="$t('edit.kind.two')" name="2">
@@ -780,13 +802,11 @@ onMounted(() => {
 .shape {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-auto-rows: minmax(120px, auto);
-  gap: 10px;
   align-items: center;
   justify-content: center;
   justify-items: center;
   padding: 10px;
-  overflow: hidden;
+  width: 300px;
 }
 
 .dnd {

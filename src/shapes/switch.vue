@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="switch-container" @click="toggleSwitch">
+  <div class="switch-container" data-type="switch">
     <div class="svg-wrapper">
       <svg 
         v-if="isOn" 
@@ -37,17 +37,13 @@ import { ref } from 'vue';
 
 const isOn = ref(false);
 
-const toggleSwitch = () => {
-  isOn.value = !isOn.value;
-};
 </script>
 
 <style lang="css" scoped>
 .switch-container {
   position: relative;
-  width: 200px;
-  height: 100px;
-  margin: 20px auto;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,8 +52,8 @@ const toggleSwitch = () => {
 
 .svg-wrapper {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
